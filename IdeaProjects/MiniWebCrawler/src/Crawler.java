@@ -11,11 +11,19 @@ public class Crawler {
     private String userNickName = "";
 
     private static int requestDelayMs = 0;
-    private static int maxParallelRequests = 0;
+    private static int maxParallelRequests = 1;
 
     private Gson GSON = new GsonBuilder().create();
 
     public Crawler(String userUrlString) {
+
+        try {
+            requestDelayMs = Integer.parseInt(System.getenv("crawler.requestDelayMs"));
+            maxParallelRequests = Integer.parseInt(System.getenv("crawler.maxParallelRequests"));
+        } catch (Exception ex) {
+            System.out.println("Переменных окружения не найдено");
+        }
+
         String nickName = userUrlString.replace("https://github.com/", "");
         nickName = nickName.replaceAll("/", "").replaceAll("\\s", "")
                            .replace(Character.toString('\uFEFF'), "");
