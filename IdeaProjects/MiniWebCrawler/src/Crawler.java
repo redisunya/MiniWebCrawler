@@ -15,14 +15,16 @@ public class Crawler {
 
     private Gson GSON = new GsonBuilder().create();
 
-    public Crawler(String userUrlString) {
-
+    static {
         try {
             requestDelayMs = Integer.parseInt(System.getenv("crawler.requestDelayMs"));
             maxParallelRequests = Integer.parseInt(System.getenv("crawler.maxParallelRequests"));
         } catch (Exception ex) {
             System.out.println("Переменных окружения не найдено");
         }
+    }
+
+    public Crawler(String userUrlString) {
 
         String nickName = userUrlString.replace("https://github.com/", "");
         nickName = nickName.replaceAll("/", "").replaceAll("\\s", "")
